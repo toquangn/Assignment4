@@ -7,6 +7,13 @@
 <title>Hello World</title>
 </head>
 <body>
-	<%= "Hello World!" %>
+	<%@ page language="java" %>
+	<%! int count = 0; %>
+	<% for (int i = 0; i < 10; i++){
+		count = count + 1;
+	%>
+	<br/>
+	The counter value is: <%= count %>
+	<%} %>
 </body>
 </html>
