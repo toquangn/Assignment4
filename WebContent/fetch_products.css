@@ -1,0 +1,59 @@
+            body{
+            	background-image:url("images/background3.jpg")
+            }
+            .zoom {
+                padding: 50px;
+                transition: transform .2s;
+                width: 150px;
+                height: 100px;
+                margin: 0 auto;
+            }
+
+            .zoom:hover {
+                transform: scale(1.5);
+            }
+
+            table {
+                font-family: times, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+            td, th {
+                border: 1px solid #000;
+                text-align: center;
+                padding: 1px;
+            }
+            img {
+                width:150px;
+                height:100px;
+            }
+            /* Website Header Style */
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #FF0000;
+            }
+            li {
+                float: left;
+            }
+
+            li a {
+                display: block;
+                color: black;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+                font-family: serif;
+                font-weight: bold;
+                font-size: 17px;
+            }
+
+            li a:hover:not(.active) {
+                background-color: #FFFFFF;
+            }
+
+            .active {
+                background-color: #FFFFFF;
+            }

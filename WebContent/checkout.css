@@ -1,0 +1,104 @@
+/*Cart Style*/
+table, th, td {
+    border: 1px solid black !important;
+}
+/* Form Style */
+.container {
+    width: 45%;
+    clear: both;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+.container input {
+    width: 100%;
+    clear: both;
+    padding: 5px;
+    background-image:url("./images/background3.jpg");
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.container select{
+    width: 100%;
+    clear: both;
+    background-image:url("./images/background3.jpg");
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}/* End of Form Style */
+/* This is the style for the invalid fields */
+input:invalid {
+    border-left-color: #F00;
+    border-left-width: medium;
+}
+input:valid{
+    border-left-color: greenyellow;
+    border-left-width: medium;
+}
+input:focus{
+    outline-width: 0;
+}
+input:focus:valid{
+    background: greenyellow;
+}
+input:focus:invalid {
+    background: #FDD;
+    border-left-width: medium;
+}
+select:invalid{
+    border-left-color: #F00;
+    border-left-width: medium;
+}
+select:valid{
+    border-left-color: greenyellow;
+    border-left-width: medium;
+}
+select:focus{
+    outline-width: 0;
+}
+select:focus:valid{
+    background: greenyellow;
+}
+select:focus:invalid {
+    background: #FDD;
+    border-left-width: medium;
+}
+label {
+    width: 100%;
+    display:inline-block; 
+}
+::placeholder{
+    color: black;
+}
+/* End of Form Style */
+/* Website Header Style */
+ul.website-header {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #FF0000;
+}
+li.website-header {
+    float: left;
+}
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-family: serif;
+    font-weight: bold;
+    font-size: 17px;
+}
+li a:hover:not(.active) {
+    background-color: #FFFFFF;
+}
+.active {
+    background-color: #FFFFFF;
+}
+body{
+    background-image: url("./images/background3.jpg");
+}
+h1 {
+    color: red;
+}
