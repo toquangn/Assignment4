@@ -28,20 +28,21 @@ public class ProductDetailServlet extends HttpServlet {
 	    final String servername="jdbc:mysql://localhost/inf124db026?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	    final String username = "root";
 	    final String password = "";
-//		final String password = "root";
+		//final String password = "root";
 
 		String pid = request.getParameter("pid");
 		String addtoCart = request.getParameter("prodId");
 		// Session tracking for Hats in Cart
         HttpSession session = request.getSession(true);
         
-     // print session info
+        // Print session info
         Date created = new Date(session.getCreationTime());
         Date accessed = new Date(session.getLastAccessedTime());
         System.out.println("ID " + session.getId());
         System.out.println("Created: " + created);
         System.out.println("Last Accessed: " + accessed);
-		// Html constant declarations
+        
+		// HTML constant declarations
 		String declaration =  "<html><title>Product Details</title>";
 		String styleSheet = "<head><link rel=\"stylesheet\" type=\"text/css\" href=\"product_description.css\"></head>";
 		String javaScript = "<script>function addValue() {document.getElementById(\"prodId\").value=\"hidden\"}</script>";
@@ -52,11 +53,12 @@ public class ProductDetailServlet extends HttpServlet {
 	    		+ "<li class=\"header\"><a href=\"productdetail\">Product Details</a></li>" 
 	    		+ "<li class=\"header\"><a href=\"checkout\">Checkout</a></li>"
 	    		+ "</ul>";
-	    String form = "<br><form action=\"productdetail\" method=\"post\">"+
+	    String form = "<br><form method=\"post\" action=\"http://localhost:8080/Assignment_4/api/product/service\" >"+
 				"Product Identifier: <input type=\"text\" name=\"pid\" pattern=\"[1-9]|10\"/><br><br>" +
 				"<input type=\"submit\" value=\"Show More Details\"/>" +
 			"</form>";
 		String close = "</body></html>";
+		
 		// Initialize Content
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/html");
@@ -64,13 +66,6 @@ public class ProductDetailServlet extends HttpServlet {
 		try {
 			if (pid != null) {
 			// Session tracking for recently viewed hats
-			/*
-			ServletContext servContext = getServletContext();
-			System.out.println(servContext.getAttribute("viewedProductsList").getClass());
-			ArrayList<String> currentViewedProductsList = (ArrayList<String>) servContext.getAttribute("viewedProductsList");
-			ArrayList<String> updatedViewedProductsList = updateList(currentViewedProductsList, pid);
-			servContext.setAttribute("viewedProductsList", updatedViewedProductsList);
-			 */
 			@SuppressWarnings("unchecked")
 			ArrayList<String> currentViewedProductsList = (ArrayList<String>) session.getAttribute("viewedProductsList");
 			ArrayList<String> updatedViewedProductsList = updateList(currentViewedProductsList, pid);

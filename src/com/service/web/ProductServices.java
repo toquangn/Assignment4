@@ -6,8 +6,14 @@ import javax.ws.rs.core.MediaType;
 public class ProductServices {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getProductDescription() {
-		System.out.println("In getProductionMethod");
-		return "In getProductDescription Method";
+	public String getProductFromDBService() {
+		return "In getProductFromDBService";
+	}
+	
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getProductDetailService() {
+		System.out.println("hello");
+		return "In getProductDetailService";
 	}
 }
