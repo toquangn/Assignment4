@@ -25,10 +25,10 @@ public class ProductDetailServlet extends HttpServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// DB Credentials
-	    final String servername="jdbc:mysql://localhost/inf124db026?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	    final String username = "root";
-	    final String password = "";
-		//final String password = "root";
+//	    final String servername="jdbc:mysql://localhost/inf124db026?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+//	    final String username = "root";
+//	    final String password = "";
+//		final String password = "root";
 
 		String pid = request.getParameter("pid");
 		String addtoCart = request.getParameter("prodId");
@@ -53,7 +53,7 @@ public class ProductDetailServlet extends HttpServlet {
 	    		+ "<li class=\"header\"><a href=\"productdetail\">Product Details</a></li>" 
 	    		+ "<li class=\"header\"><a href=\"checkout\">Checkout</a></li>"
 	    		+ "</ul>";
-	    String form = "<br><form method=\"post\" action=\"http://localhost:8080/Assignment_4/api/product/service\" >"+
+	    String form = "<br><form method=\"post\" action=\"http://localhost:8080/Assignment_4/api/products/get/1\" >"+
 				"Product Identifier: <input type=\"text\" name=\"pid\" pattern=\"[1-9]|10\"/><br><br>" +
 				"<input type=\"submit\" value=\"Show More Details\"/>" +
 			"</form>";
@@ -63,6 +63,8 @@ public class ProductDetailServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/html");
 		out.println( declaration + styleSheet + "<body>" + logo + nav + form);
+		
+		/*
 		try {
 			if (pid != null) {
 			// Session tracking for recently viewed hats
@@ -147,6 +149,7 @@ public class ProductDetailServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		out.println(close);
+		*/
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

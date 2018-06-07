@@ -34,7 +34,7 @@
 			out.println("<tr>");
 			out.println("<td><div class='zoom'><img src=" + rs.getString("image_url") + "></div></td>");
 			out.println("<td>" + rs.getString("description") + "</td>");
-			out.println("<td>" + String.at("%.2f", rs.getDouble("price")) + "</td>");
+			out.println("<td>" + String.format("%.2f", rs.getDouble("price")) + "</td>");
 			out.println("<td>" + rs.getString("color") + "</td>");
 			out.println("<td>" + rs.getString("material") + "</td>");
 			out.println("<td>" + rs.getInt("product_id") + "</td>");
