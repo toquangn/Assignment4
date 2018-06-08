@@ -4,28 +4,28 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("/products")
 public class ProductServices {
 	
 	@GET
-	@Path("get/{id}")
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ProductDescription getProductByID(@PathParam("id") int id) throws SQLException {
+	public Response getProductByID(@PathParam("id") int id) throws SQLException {
 	    final String servername="jdbc:mysql://localhost/inf124db026?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	    final String username = "root";
 	    final String password = "";
-	    
+//		final String servername="jdbc:mysql://localhost:8889/inf124db026?useLegacyDatetimeCode=false&serverTimezone=America/Los_Angeles";
+//	    final String username = "root";
+//	    final String password = "root";
 	    ProductDescription pd = new ProductDescription();
-
 	    try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection(servername, username, password);
 			Statement statement = con.createStatement();
-			
 			ResultSet rs = statement.executeQuery("SELECT * FROM products, product_description WHERE products.product_id=" + id + " AND description_id=" + id);
 			while (rs.next()) {
 				pd.setName(rs.getString("description"));
@@ -42,31 +42,30 @@ public class ProductServices {
             	String d5 = rs.getString("description5");
 
             	if (d1 != "" && d1 != null) {
-            		pd.addDescription(d1);
+            		pd.setDescription1(d1);
             	}
             	if (d2 != "" && d2 != null) {
-            		pd.addDescription(d2);
+            		pd.setDescription2(d2);
             	}
             	if (d3 != "" && d3 != null) {
-            		pd.addDescription(d3);
+            		pd.setDescription3(d3);
             	}
             	if (d4 != "" && d4 != null) {
-            		pd.addDescription(d4);
+            		pd.setDescription4(d4);
             	}
             	if (d5 != "" && d5 != null) {
-            		pd.addDescription(d5);
+            		pd.setDescription5(d5);
             	}
 			}
 		    con.close();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return pd;
+		return Response.ok(pd).build();
 	}
 	
 	@POST
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public String getProductDetailService() {
 		System.out.println("hello");
 		return "In getProductDetailService";

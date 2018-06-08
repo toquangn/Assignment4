@@ -1,20 +1,23 @@
 package com.service.web;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import java.util.ArrayList;
-
+@JsonSerialize
 public class ProductDescription {
+	
 	private int product_id;
 	private String name;
-	
-	private ArrayList<String> descriptions;
-	
 	private double price;
+	private String description1;
+	private String description2;
+	private String description3;
+	private String description4;
+	private String description5;
 	private String img_url1;
 	private String img_url2;
 	private String img_url3;
 	
 	public ProductDescription() {
-		this.descriptions = new ArrayList<String>();
+		
 	}
 	
 	public int getProduct_id() {
@@ -29,17 +32,41 @@ public class ProductDescription {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public void addDescription(String d) {
-		descriptions.add(d);
-	}
-	public ArrayList<String> getDescriptions(){
-		return descriptions;
-	}
 	public double getPrice() {
 		return price;
 	}
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	public String getDescription1() {
+		return description1;
+	}
+	public void setDescription1(String description1) {
+		this.description1 = description1;
+	}
+	public String getDescription2() {
+		return description2;
+	}
+	public void setDescription2(String description2) {
+		this.description2 = description2;
+	}
+	public String getDescription3() {
+		return description3;
+	}
+	public void setDescription3(String description3) {
+		this.description3 = description3;
+	}
+	public String getDescription4() {
+		return description4;
+	}
+	public void setDescription4(String description4) {
+		this.description4 = description4;
+	}
+	public String getDescription5() {
+		return description5;
+	}
+	public void setDescription5(String description5) {
+		this.description5 = description5;
 	}
 	public String getImg_url1() {
 		return img_url1;
@@ -59,13 +86,5 @@ public class ProductDescription {
 	public void setImg_url3(String img_url3) {
 		this.img_url3 = img_url3;
 	}
-	
-	
-
-	
-	
-
-	
-	
 
 }
