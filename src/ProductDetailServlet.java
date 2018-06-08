@@ -22,20 +22,12 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
-import java.util.List;
 
 @WebServlet("/ProductDetailServlet")
 public class ProductDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// DB Credentials
-//	    final String servername="jdbc:mysql://localhost/inf124db026?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-//	    final String username = "root";
-//	    final String password = "";
-//		final String servername="jdbc:mysql://localhost:8889/inf124db026?useLegacyDatetimeCode=false&serverTimezone=America/Los_Angeles";
-//	    final String username = "root";
-//	    final String password = "root";
 
 		String pid = request.getParameter("pid");
 		String addtoCart = request.getParameter("prodId");
@@ -74,9 +66,15 @@ public class ProductDetailServlet extends HttpServlet {
 		}
 		// Initialize Content
 		if (pid != null) {
+			// Session tracking for recently viewed hats
+			@SuppressWarnings("unchecked")
+			ArrayList<String> currentViewedProductsList = (ArrayList<String>) session.getAttribute("viewedProductsList");
+			ArrayList<String> updatedViewedProductsList = updateList(currentViewedProductsList, pid);
+			session.setAttribute("viewedProductsList", updatedViewedProductsList);
+			
 			// Set pid session value
 			session.setAttribute("product_id", pid);
-			System.out.println("PID IS NOT EQUAL TO NULL"+pid);
+			System.out.println("PID IS NOT EQUAL TO NULL: "+pid);
 			// Print page
 			// Build client
 			ClientConfig config = new ClientConfig();
@@ -133,15 +131,17 @@ public class ProductDetailServlet extends HttpServlet {
 	            		out.println("<li>" + d5 + "</li>");
 	            	}
 	            	out.print("</ul>");
+	        
+	        // Session tracking for Cart
+	        out.print("<form action=\"http://localhost:8080/Assignment_4/api/products/" + pid + "\" method=\"post\">" 
+					+ "<input name=\"prodId\" id=\"prodId\" type=\"hidden\" value=\""+"pid"+"\">"
+					+ "<input type=\"submit\" value=\"Add to Cart\" align=\"center\" style=\"width:15%; background-color:red; color:white; font-size:14px; font\" onsubmit=\"addValue()\"></submit>");
+	        
 	        out.print(close);
 	        
-			// Session tracking for recently viewed hats
-//			@SuppressWarnings("unchecked")
-//			ArrayList<String> currentViewedProductsList = (ArrayList<String>) session.getAttribute("viewedProductsList");
-//			ArrayList<String> updatedViewedProductsList = updateList(currentViewedProductsList, pid);
-//			session.setAttribute("viewedProductsList", updatedViewedProductsList);
-//			session.setAttribute("product_id", pid);
+	        System.out.println("Recently viewed hats: " + session.getAttribute("viewedProductsList"));
 			}
+		
 			/*
 			// Session tracking for products
 				out.println("<form action=\"ProductDetailServlet\" method=\"post\">"
@@ -185,13 +185,13 @@ public class ProductDetailServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	
-//	private ArrayList<String> updateList(ArrayList<String> productsList, String id){
-//		productsList.add(id);
-//		System.out.println(id + "added to the products list " + "with a size of " + productsList.size());
-//		if (productsList.size() > 5) {
-//			productsList.remove(0);
-//		}
-//		return productsList;
-//	}
+	private ArrayList<String> updateList(ArrayList<String> productsList, String id){
+		productsList.add(id);
+		System.out.println(id + "added to the products list " + "with a size of " + productsList.size());
+		if (productsList.size() > 5) {
+			productsList.remove(0);
+		}
+		return productsList;
+	}
 
 }

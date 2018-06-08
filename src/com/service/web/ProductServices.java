@@ -4,9 +4,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.servlet.ServletContext;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 
 @Path("/products")
 public class ProductServices {
@@ -65,9 +69,12 @@ public class ProductServices {
 	}
 	
 	@POST
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getProductDetailService() {
-		System.out.println("hello");
-		return "In getProductDetailService";
+	public Response addToCartByID(@Context ServletContext context, @PathParam("id") int id) {
+		System.out.println("INSIDE addToCartByID, ID IS: " + id);
+		UriBuilder builder = UriBuilder.fromPath(context.getContextPath());
+		builder.path("productdetailservlet");
+		return Response.seeOther(builder.build()).build();
 	}
 }
