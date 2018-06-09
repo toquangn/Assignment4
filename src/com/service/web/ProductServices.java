@@ -14,17 +14,18 @@ import javax.ws.rs.core.UriBuilder;
 
 @Path("/products")
 public class ProductServices {
+    final String servername="jdbc:mysql://localhost/inf124db026?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    final String username = "root";
+    final String password = "";
+//	final String servername="jdbc:mysql://localhost:8889/inf124db026?useLegacyDatetimeCode=false&serverTimezone=America/Los_Angeles";
+//  final String username = "root";
+//  final String password = "root";
 	
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProductByID(@PathParam("id") int id) throws SQLException {
-	    final String servername="jdbc:mysql://localhost/inf124db026?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	    final String username = "root";
-	    final String password = "";
-//		final String servername="jdbc:mysql://localhost:8889/inf124db026?useLegacyDatetimeCode=false&serverTimezone=America/Los_Angeles";
-//	    final String username = "root";
-//	    final String password = "root";
+
 	    ProductDescription pd = new ProductDescription();
 	    try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -69,12 +70,20 @@ public class ProductServices {
 	}
 	
 	@POST
-	@Path("/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response addToCartByID(@Context ServletContext context, @PathParam("id") int id) {
-		System.out.println("INSIDE addToCartByID, ID IS: " + id);
-		UriBuilder builder = UriBuilder.fromPath(context.getContextPath());
-		builder.path("productdetailservlet");
-		return Response.seeOther(builder.build()).build();
+	@Path("/post")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void addToCartByID(Cart cart) throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection(servername, username, password);
+			Statement statement = con.createStatement();
+			statement.execute("INSERT INTO `cart` (pid, description, price, quantity)"
+					+ "VALUES (" + cart.getProduct_id() + ", '" 
+									+ cart.getDescription() + "', "
+									+ cart.getPrice() + ", "
+									+ cart.getQuantity() + " );");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -20,7 +20,7 @@
 /* 	final String servername="jdbc:mysql://matt-smith-v4.ics.uci.edu/inf124db026?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     final String username = "inf124db026";
     final String password = "VXIQ!ymo!v@G";	 */	
-/*     final String servername="jdbc:mysql://localhost:8889/inf124db026?useLegacyDatetimeCode=false&serverTimezone=America/Los_Angeles";
+/* 	final String servername="jdbc:mysql://localhost:8889/inf124db026?useLegacyDatetimeCode=false&serverTimezone=America/Los_Angeles";
     final String username = "root";
     final String password = "root"; */
 	final String servername="jdbc:mysql://localhost/inf124db026?useLegacyDatetimeCode=false&serverTimezone=America/Los_Angeles";

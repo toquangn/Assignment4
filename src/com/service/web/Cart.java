@@ -5,7 +5,7 @@ public class Cart {
 	private String description;
 	private double price;
 	private int quantity;
-	private double total;
+
 	public int getProduct_id() {
 		return product_id;
 	}
@@ -30,11 +30,12 @@ public class Cart {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	public double getTotal() {
-		return total;
-	}
-	public void setTotal(double total) {
-		this.total = total;
+	public String toString() {
+		return "[ pid =" + this.product_id 
+				+ ", description=" + this.description 
+				+ ", price=" + this.price 
+				+ ", quantity=" + this.quantity 
+				+ " ]";
 	}
 	
 	

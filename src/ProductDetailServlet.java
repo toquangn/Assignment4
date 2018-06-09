@@ -15,20 +15,26 @@ import javax.servlet.http.HttpSession;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.glassfish.jersey.client.ClientConfig;
+
+import com.service.web.Cart;
 import com.service.web.ProductDescription;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 
 @WebServlet("/ProductDetailServlet")
 public class ProductDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private ProductDescription productDescription = null;
+
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
 		String pid = request.getParameter("pid");
 		String addtoCart = request.getParameter("prodId");
 		// Session tracking for Hats in Cart
@@ -67,10 +73,10 @@ public class ProductDetailServlet extends HttpServlet {
 		// Initialize Content
 		if (pid != null) {
 			// Session tracking for recently viewed hats
-			@SuppressWarnings("unchecked")
-			ArrayList<String> currentViewedProductsList = (ArrayList<String>) session.getAttribute("viewedProductsList");
-			ArrayList<String> updatedViewedProductsList = updateList(currentViewedProductsList, pid);
-			session.setAttribute("viewedProductsList", updatedViewedProductsList);
+//			@SuppressWarnings("unchecked")
+//			ArrayList<String> currentViewedProductsList = (ArrayList<String>) session.getAttribute("viewedProductsList");
+//			ArrayList<String> updatedViewedProductsList = updateList(currentViewedProductsList, pid);
+//			session.setAttribute("viewedProductsList", updatedViewedProductsList);
 			
 			// Set pid session value
 			session.setAttribute("product_id", pid);
@@ -89,7 +95,7 @@ public class ProductDetailServlet extends HttpServlet {
 	        System.out.println(jsonResponse);
 	        // Format JSON Response as a product Description
 	        ObjectMapper objectMapper = new ObjectMapper(); // This object is from the jackson library
-	        ProductDescription productDescription = objectMapper.readValue(jsonResponse, new TypeReference<ProductDescription>(){});
+	        productDescription = objectMapper.readValue(jsonResponse, new TypeReference<ProductDescription>(){});
 	        // Print Page with Json response
 	        out.print(declaration + styleSheet + "<body>" + logo + nav);
 			out.println("<h1 class='description-header'>" + productDescription.getName() + " Product Description</h1>");
@@ -133,47 +139,27 @@ public class ProductDetailServlet extends HttpServlet {
 	            	out.print("</ul>");
 	        
 	        // Session tracking for Cart
-	        out.print("<form action=\"http://localhost:8080/Assignment_4/api/products/" + pid + "\" method=\"post\">" 
-					+ "<input name=\"prodId\" id=\"prodId\" type=\"hidden\" value=\""+"pid"+"\">"
-					+ "<input type=\"submit\" value=\"Add to Cart\" align=\"center\" style=\"width:15%; background-color:red; color:white; font-size:14px; font\" onsubmit=\"addValue()\"></submit>");
+//	        out.print("<form action=\"http://localhost:8080/Assignment_4/api/products/" + pid + "\" method=\"post\">" 
+	    	out.print("<form name=\"cart_form\">" 
+					+ "<input name=\"prodId\" id=\"prodId\" type=\"hidden\" value=\""+ pid + "\">"
+					+ "<input name=\"cart_submit\" type=\"submit\" value=\"Add to Cart\" align=\"center\" style=\"width:15%; background-color:red; color:white; font-size:14px; font\" onsubmit=\"addValue()\"></submit>");
 	        
 	        out.print(close);
-	        
-	        System.out.println("Recently viewed hats: " + session.getAttribute("viewedProductsList"));
-			}
-		
-			/*
-			// Session tracking for products
-				out.println("<form action=\"ProductDetailServlet\" method=\"post\">"
-						+ "<input name=\"prodId\" id=\"prodId\" type=\"hidden\" value=\""+"pid"+"\">"
-						+ "<input type=\"submit\" value=\"Add to Cart\" align=\"center\" style=\"width:15%; background-color:red; color:white; font-size:14px; font\" onsubmit=\"addValue()\"></submit>");
-				con.close();
-			}
-			else if (addtoCart != null) {
-				String value = session.getAttribute("product_id").toString();
-				int counter = 0;
-		        Enumeration en = session.getAttributeNames();
-		        while (en.hasMoreElements()) {
-		            String name2 = (String)en.nextElement();
-		            String value2 = session.getAttribute(name2).toString();
-		            System.out.println(name2 + " = " + value2);
-		            counter+=1;
-		        }
-				String itemname = "item" + counter;
-				session.setAttribute(itemname, value);
-				RequestDispatcher rd=request.getRequestDispatcher("productdetailCart");  
-	        	rd.forward(request, response);
-			}
-			else {
-				out.println("Please enter a valid product id number.");
-			}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-					*/
-//			}
-//		out.println(close);
+	}
+        if (productDescription != null && request.getParameter("cart_submit") != null) {
+        	Cart c = new Cart();
+        	c.setProduct_id(Integer.parseInt(addtoCart));
+        	c.setDescription(productDescription.getName());
+        	c.setPrice(productDescription.getPrice());
+        	c.setQuantity(1);        
+        	
+        	ClientConfig config = new ClientConfig();
+	        Client client = ClientBuilder.newClient(config);
+	        WebTarget target = client.target(getBaseURI());
+	        Response callResult = target.path("api").path("products").path("post").
+	        		request().post(Entity.entity(c, MediaType.APPLICATION_JSON));
+
+        }
 	}
 	
     private static URI getBaseURI() {
@@ -185,13 +171,13 @@ public class ProductDetailServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	private ArrayList<String> updateList(ArrayList<String> productsList, String id){
-		productsList.add(id);
-		System.out.println(id + "added to the products list " + "with a size of " + productsList.size());
-		if (productsList.size() > 5) {
-			productsList.remove(0);
-		}
-		return productsList;
-	}
+//	private ArrayList<String> updateList(ArrayList<String> productsList, String id){
+//		productsList.add(id);
+//		System.out.println(id + "added to the products list " + "with a size of " + productsList.size());
+//		if (productsList.size() > 5) {
+//			productsList.remove(0);
+//		}
+//		return productsList;
+//	}
 
 }
