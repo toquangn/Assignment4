@@ -4,6 +4,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;
@@ -85,5 +87,34 @@ public class ProductServices {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@GET
+	@Path("/getAll")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllProducts() throws SQLException {
+		List<Product> resultList = new ArrayList<Product>();
+	    try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection(servername, username, password);
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery("SELECT * FROM products");
+			while (rs.next()) {
+				Product p = new Product();
+				
+				p.setProduct_id(rs.getInt("product_id"));
+				p.setDescription(rs.getString("description"));
+				p.setPrice(rs.getDouble("price"));
+				p.setColor(rs.getString("color"));
+				p.setMaterial(rs.getString("material"));
+				p.setImage_url(rs.getString("image_url"));
+				
+				resultList.add(p);
+			}
+		    con.close();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return Response.ok(resultList).build();
 	}
 }
