@@ -51,4 +51,4 @@ getAllProducts(Cart cart)
       "description": "Propeller Hat"
       "price": 12
       "quantity": 1
-    }
+    } 
