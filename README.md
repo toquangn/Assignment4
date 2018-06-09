@@ -35,7 +35,7 @@ getAllProducts()
         "color": "Black",
         "description": "Pirate Hat",
         "image_url": "images\/pirate.png",
-        "material": "Cloth",
+        "material": "Cloth", 
         "price": 25,
         "product_id": 2
       }
